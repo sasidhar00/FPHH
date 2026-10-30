@@ -52,8 +52,8 @@
         .falling-diya {
             position: fixed;
             top: -60px;
-            color: #d97706; /* Warm amber diya color */
-            font-size: 1.5rem; /* Medium size */
+            color: #d97706;
+            font-size: 1.5rem;
             user-select: none;
             pointer-events: none;
             z-index: 40;
@@ -61,12 +61,88 @@
         }
     </style>
 </head>
-<body class="bg-white text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-900 relative">
+<body class="bg-white text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-900 relative pb-16 md:pb-0">
 
     <!-- Falling Medium Diya Container -->
     <div id="falling-diya-container"></div>
 
-    <!-- 4-Column App Shell Container -->
+    <!-- ========================================== -->
+    <!-- MOBILE TOP BAR (Visible only on mobile)    -->
+    <!-- ========================================== -->
+    <div class="md:hidden bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-xl bg-emerald-900 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+            <span class="font-extrabold text-base tracking-tight text-emerald-950">FPWH</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 text-sm">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Slide-out Menu Drawer -->
+    <div id="mobileDrawer" class="fixed inset-y-0 left-0 w-4/5 max-w-xs bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-between p-6">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-900 flex items-center justify-center text-white font-bold text-sm">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <span class="font-extrabold text-base text-emerald-950">FPWH Menu</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-slate-700 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="space-y-2">
+                <h4 class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Navigation</h4>
+                <nav class="space-y-1 font-semibold text-xs">
+                    <a href="#" onclick="toggleMobileMenu()" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-emerald-50 text-emerald-950">
+                        <i class="fa-solid fa-house text-sm w-5 text-emerald-800"></i>
+                        <span>Explore Feed</span>
+                    </a>
+                    <a href="#quiz" onclick="toggleMobileMenu(); openQuizModal();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm w-5 text-emerald-600"></i>
+                        <span>Home Matcher</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Mobile Filters -->
+            <div class="space-y-2 pt-2 border-t border-slate-100">
+                <h4 class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Property Types</h4>
+                <div class="grid grid-cols-2 gap-1.5 text-xs font-semibold">
+                    <button onclick="filterFeed('all'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-xl bg-emerald-900 text-white">All</button>
+                    <button onclick="filterFeed('Featured'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Featured</button>
+                    <button onclick="filterFeed('Villas'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Villas</button>
+                    <button onclick="filterFeed('Plots'); toggleMobileMenu();" class="text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Plots</button>
+                </div>
+            </div>
+
+            <!-- Mobile State Filters -->
+            <div class="space-y-2 pt-2 border-t border-slate-100">
+                <h4 class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Filter by State</h4>
+                <div class="space-y-1 text-xs font-semibold">
+                    <button onclick="filterByState('all'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-xl bg-slate-900 text-white">All States</button>
+                    <button onclick="filterByState('Karnataka'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Karnataka</button>
+                    <button onclick="filterByState('Telangana'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Telangana</button>
+                    <button onclick="filterByState('Maharashtra'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-xl bg-slate-100 text-slate-700">Maharashtra</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 text-center">
+            <p class="text-[10px] text-slate-400">Made with Love by <span class="text-emerald-900 font-bold">Kanams.AI</span></p>
+        </div>
+    </div>
+    <div id="drawerOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-40 hidden md:hidden"></div>
+
+    <!-- ========================================== -->
+    <!-- DESKTOP 4-COLUMN APP SHELL CONTAINER       -->
+    <!-- ========================================== -->
     <div class="max-w-[1500px] mx-auto min-h-screen grid grid-cols-1 md:grid-cols-12 border-x border-slate-100 relative z-10">
 
         <!-- ========================================== -->
@@ -141,10 +217,10 @@
                 <div>
                     <h3 class="font-extrabold text-[11px] uppercase tracking-wider text-slate-900 mb-3">Property Types</h3>
                     <div class="space-y-1.5 text-xs font-semibold">
-                        <button onclick="filterFeed('all', 'all')" id="btn-all" class="w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm">All Projects</button>
-                        <button onclick="filterFeed('Featured', 'all')" id="btn-featured" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition flex items-center justify-between"><span>Featured Partners</span> <i class="fa-solid fa-star text-amber-500 text-[10px]"></i></button>
-                        <button onclick="filterFeed('Villas', 'all')" id="btn-villas" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Luxury Villas</button>
-                        <button onclick="filterFeed('Plots', 'all')" id="btn-plots" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Eco Plots & Land</button>
+                        <button onclick="filterFeed('all')" id="btn-all" class="w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm">All Projects</button>
+                        <button onclick="filterFeed('Featured')" id="btn-featured" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition flex items-center justify-between"><span>Featured Partners</span> <i class="fa-solid fa-star text-amber-500 text-[10px]"></i></button>
+                        <button onclick="filterFeed('Villas')" id="btn-villas" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Luxury Villas</button>
+                        <button onclick="filterFeed('Plots')" id="btn-plots" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Eco Plots & Land</button>
                     </div>
                 </div>
 
@@ -180,23 +256,21 @@
         <main class="col-span-1 md:col-span-5 border-r border-slate-100 min-h-screen pb-16 bg-white flex flex-col justify-between">
             <div>
                 <!-- Feed Header -->
-                <header class="sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-slate-100 px-6 py-4 flex justify-between items-center">
+                <header class="sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-slate-100 px-4 md:px-6 py-4 flex justify-between items-center">
                     <div>
-                        <h1 class="text-lg font-extrabold tracking-tight text-slate-900 flex items-center space-x-2">
-                            <span>Featured Real Estate Projects</span>
-                        </h1>
+                        <h1 class="text-base md:text-lg font-extrabold tracking-tight text-slate-900">Featured Real Estate Projects</h1>
                         <p class="text-[11px] text-slate-500">Handpicked conscious properties across India</p>
                     </div>
-                    <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200"><i class="fa-solid fa-fire-flame-curved mr-1"></i>Diwali Special</span>
+                    <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider border border-amber-200 flex-shrink-0 ml-2"><i class="fa-solid fa-fire-flame-curved mr-1"></i>Diwali</span>
                 </header>
 
                 <!-- Discovery Notice -->
                 <div class="mx-4 mt-4 bg-emerald-50 border border-emerald-200/60 rounded-2xl p-3 flex items-center justify-between">
                     <div class="flex items-center space-x-2.5">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-900 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-seedling"></i></div>
+                        <div class="w-8 h-8 rounded-xl bg-emerald-900 text-white flex items-center justify-center text-xs flex-shrink-0"><i class="fa-solid fa-seedling"></i></div>
                         <div>
                             <span class="text-xs font-bold text-slate-900 block leading-tight">100% Vastu & Nature-Aligned</span>
-                            <span class="text-[10px] text-emerald-800">Verified open green spaces, clean air corridors, and peaceful surroundings.</span>
+                            <span class="text-[10px] text-emerald-800">Verified open green spaces and peaceful surroundings.</span>
                         </div>
                     </div>
                 </div>
@@ -208,7 +282,7 @@
 
                 <!-- Show More Pagination Button Container -->
                 <div id="pagination-container" class="p-6 text-center hidden">
-                    <button onclick="loadMoreProperties()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-6 py-3 rounded-xl transition shadow-sm">
+                    <button onclick="loadMoreProperties()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-6 py-3 rounded-xl transition shadow-sm w-full md:w-auto">
                         Show More Projects <i class="fa-solid fa-arrow-down ml-1 text-[10px]"></i>
                     </button>
                 </div>
@@ -222,7 +296,7 @@
                     <i class="fa-solid fa-fire-flame-curved text-3xl"></i>
                     <i class="fa-solid fa-fire-flame-curved"></i>
                 </div>
-                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-widest mb-1">Happily celebrating Diwali</h4>
+                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-widest mb-1">Proudly celebrating Diwali</h4>
                 <p class="text-[11px] text-slate-500 font-medium">Made in India with Love by <span class="text-emerald-900 font-extrabold">Kanams.AI</span></p>
             </div>
         </main>
@@ -273,9 +347,23 @@
 
     </div>
 
+    <!-- ========================================== -->
+    <!-- MOBILE FIXED BOTTOM ACTION BAR             -->
+    <!-- ========================================== -->
+    <div class="md:hidden fixed bottom-0 inset-x-0 bg-white/90 backdrop-blur-md border-t border-slate-200 p-3 flex items-center justify-around z-40 shadow-lg">
+        <button onclick="openQuizModal()" class="flex items-center space-x-2 text-xs font-bold text-emerald-950 bg-emerald-50 px-4 py-2.5 rounded-xl border border-emerald-200">
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-600"></i>
+            <span>Home Matcher</span>
+        </button>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center space-x-2 text-xs font-bold text-white bg-emerald-900 px-5 py-2.5 rounded-xl shadow-sm">
+            <i class="fa-solid fa-arrow-up"></i>
+            <span>Top</span>
+        </button>
+    </div>
+
     <!-- Universal Action Modal -->
     <div id="inquiryModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl relative border border-slate-100">
             <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -299,7 +387,7 @@
 
     <!-- Home Matcher Quiz Modal -->
     <div id="quizModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100 text-center">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl relative border border-slate-100 text-center">
             <button onclick="closeQuizModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -316,12 +404,26 @@
         </div>
     </div>
 
-    <!-- Dataset & Scripting with Falling Medium Diyas -->
+    <!-- Dataset & Scripting -->
     <script>
-        // Generator for falling medium-sized diyas
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const icon = document.getElementById('menuIcon');
+            
+            drawer.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            
+            if (drawer.classList.contains('-translate-x-full')) {
+                icon.className = "fa-solid fa-bars";
+            } else {
+                icon.className = "fa-solid fa-xmark";
+            }
+        }
+
         function createFallingDiyas() {
             const container = document.getElementById('falling-diya-container');
-            const diyaCount = 10; // Number of falling lamps across screen
+            const diyaCount = 8; // Optimized for mobile performance
 
             for (let i = 0; i < diyaCount; i++) {
                 const diya = document.createElement('div');
@@ -329,8 +431,8 @@
                 diya.innerHTML = '<i class="fa-solid fa-fire-flame-curved"></i>';
                 
                 const randomLeft = Math.random() * window.innerWidth;
-                const randomDuration = 7 + Math.random() * 8; // 7s to 15s fall time
-                const randomDelay = Math.random() * 6; // Staggered start
+                const randomDuration = 8 + Math.random() * 8;
+                const randomDelay = Math.random() * 6;
 
                 diya.style.left = `${randomLeft}px`;
                 diya.style.animationDuration = `${randomDuration}s`;
@@ -426,8 +528,8 @@
             paginatedItems.forEach(item => {
                 const card = document.createElement('div');
                 const cardStyling = item.isSponsored 
-                    ? "border-b border-slate-100 p-5 bg-emerald-50/30 hover:bg-emerald-50/50 transition relative" 
-                    : "border-b border-slate-100 p-5 hover:bg-slate-50/50 transition relative";
+                    ? "border-b border-slate-100 p-4 md:p-5 bg-emerald-50/30 hover:bg-emerald-50/50 transition relative" 
+                    : "border-b border-slate-100 p-4 md:p-5 hover:bg-slate-50/50 transition relative";
 
                 card.className = cardStyling;
                 card.innerHTML = `
@@ -436,9 +538,9 @@
                         <div class="w-10 h-10 rounded-xl bg-emerald-900 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm">
                             FP
                         </div>
-                        <div class="flex-1">
+                        <div class="flex-1 min-w-0">
                             <!-- Header -->
-                            <div class="flex items-center space-x-1.5 text-xs">
+                            <div class="flex items-center space-x-1.5 text-xs flex-wrap">
                                 <span class="font-bold text-slate-900">${item.author}</span>
                                 <i class="fa-solid fa-circle-check text-emerald-700 text-[10px]"></i>
                                 <span class="text-slate-400">${item.handle} · ${item.time}</span>
@@ -454,14 +556,14 @@
                             <div class="border ${item.isSponsored ? 'border-emerald-300 shadow-md ring-1 ring-emerald-200' : 'border-slate-200/80 shadow-sm'} rounded-3xl overflow-hidden bg-white mb-3.5 transition">
                                 <div class="h-40 overflow-hidden relative">
                                     <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
-                                    <span class="absolute top-3 left-3 bg-emerald-900/90 backdrop-blur-md text-emerald-100 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>${item.location}</span>
+                                    <span class="absolute top-3 left-3 bg-emerald-900/95 backdrop-blur-md text-emerald-100 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>${item.location}</span>
                                 </div>
                                 <div class="p-4">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h4 class="font-bold text-sm text-slate-900">${item.name}</h4>
                                         </div>
-                                        <span class="text-xs font-extrabold text-emerald-900">${item.price}</span>
+                                        <span class="text-xs font-extrabold text-emerald-900 ml-2">${item.price}</span>
                                     </div>
                                     <button onclick="openModal('${item.name}')" class="w-full mt-3.5 ${item.isSponsored ? 'bg-emerald-900 hover:bg-emerald-800' : 'bg-slate-900 hover:bg-emerald-900'} text-white font-semibold text-xs py-2.5 rounded-xl transition shadow-sm">
                                         Get Price Sheet & Floor Plans
@@ -499,11 +601,13 @@
             itemsShown = 2;
             
             ['btn-all', 'btn-featured', 'btn-villas', 'btn-plots'].forEach(id => {
-                document.getElementById(id).className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold" + (id === 'btn-featured' ? " flex items-center justify-between" : "");
+                const el = document.getElementById(id);
+                if(el) el.className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold" + (id === 'btn-featured' ? " flex items-center justify-between" : "");
             });
 
             const activeId = category === 'all' ? 'btn-all' : category === 'Featured' ? 'btn-featured' : category === 'Villas' ? 'btn-villas' : 'btn-plots';
-            document.getElementById(activeId).className = "w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm text-xs font-semibold" + (activeId === 'btn-featured' ? " flex items-center justify-between" : "");
+            const activeEl = document.getElementById(activeId);
+            if(activeEl) activeEl.className = "w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm text-xs font-semibold" + (activeId === 'btn-featured' ? " flex items-center justify-between" : "");
 
             renderFeed();
         }
@@ -513,11 +617,13 @@
             itemsShown = 2;
 
             ['state-all', 'state-karnataka', 'state-telangana', 'state-maharashtra'].forEach(id => {
-                document.getElementById(id).className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold";
+                const el = document.getElementById(id);
+                if(el) el.className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold";
             });
 
             const activeStateId = state === 'all' ? 'state-all' : state === 'Karnataka' ? 'state-karnataka' : state === 'Telangana' ? 'state-telangana' : 'state-maharashtra';
-            document.getElementById(activeStateId).className = "w-full text-left px-3 py-2 rounded-xl bg-slate-900 text-white transition shadow-sm text-xs font-semibold";
+            const activeStateEl = document.getElementById(activeStateId);
+            if(activeStateEl) activeStateEl.className = "w-full text-left px-3 py-2 rounded-xl bg-slate-900 text-white transition shadow-sm text-xs font-semibold";
 
             renderFeed();
         }
