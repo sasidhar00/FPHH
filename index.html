@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPWH — Find Peace, Wellness, and Happiness</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        
+        @keyframes verticalScroll {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+        .animate-ticker {
+            animation: verticalScroll 14s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+
+        /* Diya Flicker Animation */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
+        }
+        .diya-glow {
+            animation: flicker 2s infinite ease-in-out;
+        }
+
+        /* Falling Medium-Sized Diya Animation */
+        @keyframes fallDiya {
+            0% {
+                transform: translateY(-60px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.85;
+            }
+            90% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .falling-diya {
+            position: fixed;
+            top: -60px;
+            color: #d97706; /* Warm amber diya color */
+            font-size: 1.5rem; /* Medium size */
+            user-select: none;
+            pointer-events: none;
+            z-index: 40;
+            animation: fallDiya linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-900 relative">
+
+    <!-- Falling Medium Diya Container -->
+    <div id="falling-diya-container"></div>
+
+    <!-- 4-Column App Shell Container -->
+    <div class="max-w-[1500px] mx-auto min-h-screen grid grid-cols-1 md:grid-cols-12 border-x border-slate-100 relative z-10">
+
+        <!-- ========================================== -->
+        <!-- COLUMN 1: Navigation & News Ticker (Col 2) -->
+        <!-- ========================================== -->
+        <aside class="hidden md:flex md:col-span-2 flex-col justify-between sticky top-0 h-screen py-6 px-4 border-r border-slate-100 bg-white z-20">
+            <div class="space-y-6">
+                <!-- App Brand / Logo -->
+                <div class="flex items-center space-x-3 px-2 py-2">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-900 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-base block tracking-tight leading-none text-emerald-950">FPWH</span>
+                        <span class="text-[9px] text-slate-500 font-semibold tracking-widest uppercase">Conscious Living</span>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="space-y-1 font-semibold text-xs">
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-emerald-50 text-emerald-950 transition">
+                        <i class="fa-solid fa-house text-sm w-5 text-emerald-800"></i>
+                        <span>Explore Feed</span>
+                    </a>
+                    <a href="#quiz" onclick="openQuizModal()" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition text-slate-600 cursor-pointer">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm w-5 text-emerald-600"></i>
+                        <span>Home Matcher</span>
+                    </a>
+                    <a href="#saved" onclick="alert('Saved properties will appear here.')" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition text-slate-600 cursor-pointer">
+                        <i class="fa-solid fa-heart text-sm w-5 text-rose-500"></i>
+                        <span>Saved Homes</span>
+                    </a>
+                </nav>
+
+                <!-- Vertical Bottom-to-Top News Flash Ticker -->
+                <div class="pt-2">
+                    <div class="flex items-center justify-between mb-2 px-1">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Live News Flash</span>
+                        <i class="fa-solid fa-bolt text-[10px] text-emerald-700"></i>
+                    </div>
+                    <div class="h-28 overflow-hidden relative bg-slate-50 rounded-2xl border border-slate-200/80 p-3">
+                        <div class="absolute inset-x-3 animate-ticker space-y-4">
+                            <div class="text-[11px] text-slate-700 leading-snug">
+                                <span class="font-bold text-emerald-900 block">📢 Karnataka</span>
+                                Nandi Foothills phase 2 pre-launch registrations open.
+                            </div>
+                            <div class="text-[11px] text-slate-700 leading-snug">
+                                <span class="font-bold text-emerald-900 block">🌳 Telangana</span>
+                                Shamirpet organic farm plot zoning certified 100% chemical-free.
+                            </div>
+                            <div class="text-[11px] text-slate-700 leading-snug">
+                                <span class="font-bold text-emerald-900 block">🌊 Maharashtra</span>
+                                Mulshi lakefront wellness spa construction reaches 80% completion.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Card -->
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-center cursor-pointer hover:border-emerald-300 transition" onclick="openModal('Direct Developer Connect')">
+                <span class="text-[10px] font-extrabold text-slate-900 block mb-0.5">Direct Developer Deals</span>
+                <span class="text-[10px] text-emerald-800 underline font-semibold">Inquire Now</span>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- COLUMN 2: Property & State Filters (Col 2) -->
+        <!-- ========================================== -->
+        <aside class="hidden md:block md:col-span-2 sticky top-0 h-screen overflow-y-auto py-6 px-4 border-r border-slate-100 bg-slate-50/40 z-10">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-extrabold text-[11px] uppercase tracking-wider text-slate-900 mb-3">Property Types</h3>
+                    <div class="space-y-1.5 text-xs font-semibold">
+                        <button onclick="filterFeed('all', 'all')" id="btn-all" class="w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm">All Projects</button>
+                        <button onclick="filterFeed('Featured', 'all')" id="btn-featured" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition flex items-center justify-between"><span>Featured Partners</span> <i class="fa-solid fa-star text-amber-500 text-[10px]"></i></button>
+                        <button onclick="filterFeed('Villas', 'all')" id="btn-villas" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Luxury Villas</button>
+                        <button onclick="filterFeed('Plots', 'all')" id="btn-plots" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Eco Plots & Land</button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- Filter by State -->
+                <div>
+                    <h3 class="font-extrabold text-[11px] uppercase tracking-wider text-slate-900 mb-3">Filter by State</h3>
+                    <div class="space-y-1.5 text-xs font-semibold">
+                        <button onclick="filterByState('all')" id="state-all" class="w-full text-left px-3 py-2 rounded-xl bg-slate-900 text-white transition shadow-sm">All States</button>
+                        <button onclick="filterByState('Karnataka')" id="state-karnataka" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Karnataka</button>
+                        <button onclick="filterByState('Telangana')" id="state-telangana" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Telangana</button>
+                        <button onclick="filterByState('Maharashtra')" id="state-maharashtra" class="w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition">Maharashtra</button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- Interactive Matcher Widget -->
+                <div class="bg-gradient-to-br from-emerald-900 to-teal-900 text-white rounded-2xl p-4 shadow-sm">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-300 block mb-1">Find Your Sanctuary</span>
+                    <h4 class="font-bold text-xs mb-2">Looking for a specific environment?</h4>
+                    <button onclick="openQuizModal()" class="w-full bg-white text-emerald-950 hover:bg-emerald-50 text-[11px] font-bold py-2 rounded-xl transition">
+                        Start Matcher
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ========================================== -->
+        <!-- COLUMN 3: Main Property Feed (Col 5)       -->
+        <!-- ========================================== -->
+        <main class="col-span-1 md:col-span-5 border-r border-slate-100 min-h-screen pb-16 bg-white flex flex-col justify-between">
+            <div>
+                <!-- Feed Header -->
+                <header class="sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-slate-100 px-6 py-4 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-tight text-slate-900 flex items-center space-x-2">
+                            <span>Featured Real Estate Projects</span>
+                        </h1>
+                        <p class="text-[11px] text-slate-500">Handpicked conscious properties across India</p>
+                    </div>
+                    <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200"><i class="fa-solid fa-fire-flame-curved mr-1"></i>Diwali Special</span>
+                </header>
+
+                <!-- Discovery Notice -->
+                <div class="mx-4 mt-4 bg-emerald-50 border border-emerald-200/60 rounded-2xl p-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-emerald-900 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-seedling"></i></div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-900 block leading-tight">100% Vastu & Nature-Aligned</span>
+                            <span class="text-[10px] text-emerald-800">Verified open green spaces, clean air corridors, and peaceful surroundings.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Property Feed Stream -->
+                <div id="property-feed">
+                    <!-- Injected via JavaScript -->
+                </div>
+
+                <!-- Show More Pagination Button Container -->
+                <div id="pagination-container" class="p-6 text-center hidden">
+                    <button onclick="loadMoreProperties()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-6 py-3 rounded-xl transition shadow-sm">
+                        Show More Projects <i class="fa-solid fa-arrow-down ml-1 text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Festive Bottom Footer Section (Medium Diyas + Branding) -->
+            <div class="mt-12 border-t border-slate-100 bg-amber-50/40 p-6 text-center">
+                <!-- Medium Diyas Graphic -->
+                <div class="flex justify-center items-center space-x-4 mb-3 text-amber-600 text-2xl diya-glow">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    <i class="fa-solid fa-fire-flame-curved text-3xl"></i>
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                </div>
+                <h4 class="text-xs font-bold text-slate-900 uppercase tracking-widest mb-1">Happily celebrating Diwali</h4>
+                <p class="text-[11px] text-slate-500 font-medium">Made in India with Love by <span class="text-emerald-900 font-extrabold">Kanams.AI</span></p>
+            </div>
+        </main>
+
+        <!-- ========================================== -->
+        <!-- COLUMN 4: Quick Action & Trust (Col 3)     -->
+        <!-- ========================================== -->
+        <aside class="hidden md:block md:col-span-3 p-4 sticky top-0 h-screen overflow-y-auto space-y-5 bg-white">
+            <!-- Instant Brochure Request Box -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4">
+                <h3 class="font-extrabold text-xs uppercase tracking-wider text-slate-900 mb-2">Request Official Brochure</h3>
+                <p class="text-[11px] text-slate-500 mb-4">Get floor plans, pricing sheets, and master layouts instantly.</p>
+                
+                <form name="brochure-download" method="POST" data-netlify="true" onsubmit="handleGatedDownload(event)" class="space-y-3">
+                    <input type="hidden" name="form-name" value="brochure-download">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-700 mb-1">Full Name</label>
+                        <input type="text" name="name" required class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-900" placeholder="Enter full name">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-700 mb-1">Email Address</label>
+                        <input type="email" name="email" required class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-900" placeholder="name@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-700 mb-1">Select Property</label>
+                        <select name="property" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-emerald-900">
+                            <option>Ananda Serene Enclave (Bengaluru)</option>
+                            <option>Shanti Vanam Green Habitats (Hyderabad)</option>
+                            <option>Prana Lakefront Sanctuaries (Pune)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold text-xs py-2.5 rounded-xl transition shadow-sm">
+                        Unlock & Download PDF Brochure
+                    </button>
+                </form>
+            </div>
+
+            <!-- Why FPWH -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4">
+                <h3 class="font-extrabold text-xs uppercase tracking-wider text-slate-900 mb-3">The FPWH Guarantee</h3>
+                <div class="space-y-2.5 text-xs text-slate-600">
+                    <div class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-700"></i><span>Zero Brokerage / Direct Developer Pricing</span></div>
+                    <div class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-700"></i><span>Absolute Peaceful Locations Away From City Noise</span></div>
+                    <div class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-700"></i><span>Dedicated Organic Farming & Meditation Zones</span></div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Universal Action Modal -->
+    <div id="inquiryModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="modalTitle" class="text-xl font-extrabold text-slate-900 mb-2">Connect With Developer Team</h3>
+            <p id="modalSub" class="text-xs text-slate-500 mb-6">Enter your contact details to speak directly with project advisors.</p>
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Full Name</label>
+                    <input type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 focus:outline-none focus:border-emerald-900" placeholder="Enter full name">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Phone Number (WhatsApp)</label>
+                    <input type="tel" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 focus:outline-none focus:border-emerald-900" placeholder="+91 98765 43210">
+                </div>
+                <button type="submit" class="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-sm mt-2">
+                    Request Call Back & Pricing
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Home Matcher Quiz Modal -->
+    <div id="quizModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100 text-center">
+            <button onclick="closeQuizModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-900 flex items-center justify-center text-xl mx-auto mb-4">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-2">Find Your Perfect Sanctuary</h3>
+            <p class="text-xs text-slate-500 mb-6">What kind of natural surroundings do you prefer most?</p>
+            <div class="space-y-2.5 text-xs font-semibold">
+                <button onclick="recommendProperty('Ananda Serene Enclave (Bengaluru Foothills)')" class="w-full p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 border border-slate-200 text-slate-800 transition text-left">🏔️ Mountain & Valley Views (Bengaluru)</button>
+                <button onclick="recommendProperty('Shanti Vanam Green Habitats (Hyderabad Outskirts)')" class="w-full p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 border border-slate-200 text-slate-800 transition text-left">🌳 Reserve Forest & Organic Farm Plots (Hyderabad)</button>
+                <button onclick="recommendProperty('Prana Lakefront Sanctuaries (Pune Backwaters)')" class="w-full p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 border border-slate-200 text-slate-800 transition text-left">🌊 Direct Waterfront & Luxury Villas (Pune)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset & Scripting with Falling Medium Diyas -->
+    <script>
+        // Generator for falling medium-sized diyas
+        function createFallingDiyas() {
+            const container = document.getElementById('falling-diya-container');
+            const diyaCount = 10; // Number of falling lamps across screen
+
+            for (let i = 0; i < diyaCount; i++) {
+                const diya = document.createElement('div');
+                diya.className = 'falling-diya';
+                diya.innerHTML = '<i class="fa-solid fa-fire-flame-curved"></i>';
+                
+                const randomLeft = Math.random() * window.innerWidth;
+                const randomDuration = 7 + Math.random() * 8; // 7s to 15s fall time
+                const randomDelay = Math.random() * 6; // Staggered start
+
+                diya.style.left = `${randomLeft}px`;
+                diya.style.animationDuration = `${randomDuration}s`;
+                diya.style.animationDelay = `${randomDelay}s`;
+
+                container.appendChild(diya);
+            }
+        }
+
+        const propertyListings = [
+            {
+                id: 1,
+                author: "FPWH Verified Project",
+                handle: "@fpwh_india",
+                time: "Pinned Post",
+                category: "Villas",
+                state: "Karnataka",
+                badge: "Luxury Villas",
+                isSponsored: true,
+                name: "Ananda Serene Enclave",
+                location: "Nandi Foothills, Bengaluru",
+                price: "₹1.85 Cr onwards",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+                text: "✨ Featured Partner Listing in Bengaluru! Vastu-compliant East-facing luxury villas featuring absolute zero-noise pollution corridors, private meditation decks, and serene mountain valley views. 🌿🏡",
+                likes: 342,
+                retweets: 89
+            },
+            {
+                id: 2,
+                author: "FPWH Verified Project",
+                handle: "@fpwh_india",
+                time: "5h",
+                category: "Plots",
+                state: "Telangana",
+                badge: "Eco Plots",
+                isSponsored: false,
+                name: "Shanti Vanam Green Habitats",
+                location: "Shamirpet Outskirts, Hyderabad",
+                price: "₹98 Lakhs onwards",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
+                text: "🌳 Surrounded by reserve forest! Shanti Vanam features plant-forward multi-acre organic farming plots, solar street lighting, natural ponds, and a community yoga pavilion. 💧✨",
+                likes: 512,
+                retweets: 124
+            },
+            {
+                id: 3,
+                author: "FPWH Verified Project",
+                handle: "@fpwh_india",
+                time: "1d",
+                category: "Villas",
+                state: "Maharashtra",
+                badge: "Waterfront Villas",
+                isSponsored: false,
+                name: "Prana Lakefront Sanctuaries",
+                location: "Mulshi Backwaters, Pune",
+                price: "₹2.40 Cr onwards",
+                image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80",
+                text: "🌊 Direct lakeside property built with pure non-toxic building materials. Complete with private decks, hydrotherapy wellness spas, and quiet reflection lawns. 🧘‍♂️⚡",
+                likes: 780,
+                retweets: 230
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentState = 'all';
+        let itemsShown = 2;
+
+        function renderFeed() {
+            const feed = document.getElementById('property-feed');
+            const paginationContainer = document.getElementById('pagination-container');
+            feed.innerHTML = '';
+
+            let filtered = propertyListings;
+
+            if (currentCategory === 'Featured') {
+                filtered = filtered.filter(p => p.isSponsored);
+            } else if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (currentState !== 'all') {
+                filtered = filtered.filter(p => p.state === currentState);
+            }
+
+            if (filtered.length === 0) {
+                feed.innerHTML = '<div class="p-8 text-center text-xs text-slate-500">No properties found matching your filter criteria.</div>';
+                paginationContainer.classList.add('hidden');
+                return;
+            }
+
+            const paginatedItems = filtered.slice(0, itemsShown);
+
+            paginatedItems.forEach(item => {
+                const card = document.createElement('div');
+                const cardStyling = item.isSponsored 
+                    ? "border-b border-slate-100 p-5 bg-emerald-50/30 hover:bg-emerald-50/50 transition relative" 
+                    : "border-b border-slate-100 p-5 hover:bg-slate-50/50 transition relative";
+
+                card.className = cardStyling;
+                card.innerHTML = `
+                    ${item.isSponsored ? '<span class="absolute top-3 right-4 text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center space-x-1"><i class="fa-solid fa-star mr-1"></i><span>Featured Partner</span></span>' : ''}
+                    <div class="flex space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-900 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-sm">
+                            FP
+                        </div>
+                        <div class="flex-1">
+                            <!-- Header -->
+                            <div class="flex items-center space-x-1.5 text-xs">
+                                <span class="font-bold text-slate-900">${item.author}</span>
+                                <i class="fa-solid fa-circle-check text-emerald-700 text-[10px]"></i>
+                                <span class="text-slate-400">${item.handle} · ${item.time}</span>
+                                ${!item.isSponsored ? `<span class="ml-auto bg-emerald-50 text-emerald-900 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border border-emerald-100">${item.badge}</span>` : ''}
+                            </div>
+
+                            <!-- Text Description -->
+                            <p class="text-xs text-slate-700 mt-2.5 mb-3.5 leading-relaxed font-normal">
+                                ${item.text}
+                            </p>
+
+                            <!-- Property Card -->
+                            <div class="border ${item.isSponsored ? 'border-emerald-300 shadow-md ring-1 ring-emerald-200' : 'border-slate-200/80 shadow-sm'} rounded-3xl overflow-hidden bg-white mb-3.5 transition">
+                                <div class="h-40 overflow-hidden relative">
+                                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                                    <span class="absolute top-3 left-3 bg-emerald-900/90 backdrop-blur-md text-emerald-100 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1"></i>${item.location}</span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-sm text-slate-900">${item.name}</h4>
+                                        </div>
+                                        <span class="text-xs font-extrabold text-emerald-900">${item.price}</span>
+                                    </div>
+                                    <button onclick="openModal('${item.name}')" class="w-full mt-3.5 ${item.isSponsored ? 'bg-emerald-900 hover:bg-emerald-800' : 'bg-slate-900 hover:bg-emerald-900'} text-white font-semibold text-xs py-2.5 rounded-xl transition shadow-sm">
+                                        Get Price Sheet & Floor Plans
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="flex justify-between text-slate-400 text-xs max-w-md pt-1">
+                                <button class="flex items-center space-x-1.5 hover:text-emerald-800 transition"><i class="fa-regular fa-comment"></i><span>24</span></button>
+                                <button class="flex items-center space-x-1.5 hover:text-emerald-800 transition"><i class="fa-solid fa-retweet"></i><span>${item.retweets}</span></button>
+                                <button class="flex items-center space-x-1.5 hover:text-rose-600 transition"><i class="fa-regular fa-heart"></i><span>${item.likes}</span></button>
+                                <button class="hover:text-emerald-800 transition"><i class="fa-solid fa-share-nodes"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
+
+            if (filtered.length > itemsShown) {
+                paginationContainer.classList.remove('hidden');
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
+        }
+
+        function loadMoreProperties() {
+            itemsShown += 2;
+            renderFeed();
+        }
+
+        function filterFeed(category) {
+            currentCategory = category;
+            itemsShown = 2;
+            
+            ['btn-all', 'btn-featured', 'btn-villas', 'btn-plots'].forEach(id => {
+                document.getElementById(id).className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold" + (id === 'btn-featured' ? " flex items-center justify-between" : "");
+            });
+
+            const activeId = category === 'all' ? 'btn-all' : category === 'Featured' ? 'btn-featured' : category === 'Villas' ? 'btn-villas' : 'btn-plots';
+            document.getElementById(activeId).className = "w-full text-left px-3 py-2 rounded-xl bg-emerald-900 text-white transition shadow-sm text-xs font-semibold" + (activeId === 'btn-featured' ? " flex items-center justify-between" : "");
+
+            renderFeed();
+        }
+
+        function filterByState(state) {
+            currentState = state;
+            itemsShown = 2;
+
+            ['state-all', 'state-karnataka', 'state-telangana', 'state-maharashtra'].forEach(id => {
+                document.getElementById(id).className = "w-full text-left px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition text-xs font-semibold";
+            });
+
+            const activeStateId = state === 'all' ? 'state-all' : state === 'Karnataka' ? 'state-karnataka' : state === 'Telangana' ? 'state-telangana' : 'state-maharashtra';
+            document.getElementById(activeStateId).className = "w-full text-left px-3 py-2 rounded-xl bg-slate-900 text-white transition shadow-sm text-xs font-semibold";
+
+            renderFeed();
+        }
+
+        function openModal(propertyName) {
+            document.getElementById('modalTitle').textContent = `Inquire about ${propertyName}`;
+            document.getElementById('inquiryModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('inquiryModal').classList.add('hidden');
+        }
+
+        function openQuizModal() {
+            document.getElementById('quizModal').classList.remove('hidden');
+        }
+
+        function closeQuizModal() {
+            document.getElementById('quizModal').classList.add('hidden');
+        }
+
+        function recommendProperty(propertyTitle) {
+            alert(`Top recommendation: ${propertyTitle}. Opening project details...`);
+            closeQuizModal();
+            openModal(propertyTitle);
+        }
+
+        function handleGatedDownload(e) {
+            e.preventDefault();
+            alert('Success! Your brochure and floor plans have been sent to your email.');
+            e.target.reset();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert('Thank you! A senior property advisor will contact you shortly with direct developer pricing.');
+            closeModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeed();
+            createFallingDiyas();
+        });
+    </script>
+</body>
+</html>
